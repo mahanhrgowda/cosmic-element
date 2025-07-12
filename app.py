@@ -282,7 +282,7 @@ def get_lahiri_ayanamsa(decimal_year):
     return base_ayan + rate * (decimal_year - 1950)
 
 # Streamlit App
-st.title("Cosmic Rashmi Weaver 🔮🦅🧵")
+st.title("Cosmic Element Weaver 🔮🦅🧵")
 
 st.write("Enter your birth details (UTC time) to weave your Siddha Pakshi force with cultural insights and cosmic string vibes! 🌍⏰ Select a culture to customize the elemental output.")
 
