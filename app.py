@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
 from math import sin, radians, degrees
+import zoneinfo
 
 # Unified Elemental Database
 database = {
@@ -281,18 +282,24 @@ def get_lahiri_ayanamsa(decimal_year):
     return base_ayan + rate * (decimal_year - 1950)
 
 # Streamlit App
-st.title("Cosmic Element Weaver 🔮🦅🧵")
+st.title("Cosmic Rashmi Weaver 🔮🦅🧵")
 
 st.write("Enter your birth details (UTC time) to weave your Siddha Pakshi force with cultural insights and cosmic string vibes! 🌍⏰ Select a culture to customize the elemental output.")
 
-birth_date = st.date_input("Birth Date 📅")
-birth_time = st.time_input("Birth Time ⏰")
+birth_date = st.date_input("Birth Date 📅", min_value=datetime.date(1900, 1, 1), max_value=datetime.date(2100, 12, 31), value=datetime.date(1993, 7, 12))
+birth_time = st.time_input("Birth Time ⏰", value=datetime.time(12, 26), step=datetime.timedelta(minutes=1))
 place = st.text_input("Place of Birth 🏙️ (Optional)")
+timezones = sorted(zoneinfo.available_timezones())
+timezone = st.selectbox("Timezone 🌍", timezones, index=timezones.index("Asia/Kolkata") if "Asia/Kolkata" in timezones else 0)
 culture = st.selectbox("Select Culture 🌐", options=["Chinese/Taoist", "Japanese", "Western Occult", "Native American", "Hindu", "Celtic/Druidic"])
 
 if st.button("Weave Insights ✨"):
     if birth_date and birth_time:
-        dt = datetime.datetime.combine(birth_date, birth_time)
+        local_dt = datetime.datetime.combine(birth_date, birth_time)
+        local_tz = zoneinfo.ZoneInfo(timezone)
+        local_dt = local_dt.replace(tzinfo=local_tz)
+        utc_dt = local_dt.astimezone(zoneinfo.ZoneInfo("UTC"))
+        dt = utc_dt
         decimal_year = dt.year + (dt.timetuple().tm_yday - 1) / 365.0
         jd = datetime_to_jd(dt)
         mjd = jd - 2400000.5
