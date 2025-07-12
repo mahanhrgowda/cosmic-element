@@ -281,7 +281,7 @@ def get_lahiri_ayanamsa(decimal_year):
     return base_ayan + rate * (decimal_year - 1950)
 
 # Streamlit App
-st.title("Cosmic Rashmi Weaver 🔮🦅🧵")
+st.title("Pakshi Rashmi Weaver 🔮🦅🧵")
 
 st.write("Enter your birth details (UTC time) to weave your Siddha Pakshi force with cultural insights and cosmic string vibes! 🌍⏰ Select a culture to customize the elemental output.")
 
@@ -293,7 +293,7 @@ culture = st.selectbox("Select Culture 🌐", options=["Chinese/Taoist", "Japane
 if st.button("Weave Insights ✨"):
     if birth_date and birth_time:
         dt = datetime.datetime.combine(birth_date, birth_time)
-        decimal_year = dt.year + (dt.timetuple().yday - 1) / 365.0
+        decimal_year = dt.year + (dt.timetuple().tm_yday - 1) / 365.0
         jd = datetime_to_jd(dt)
         mjd = jd - 2400000.5
         moon_lon = moon_long(mjd)
